@@ -1,160 +1,163 @@
-function createReelContent(finalDigit, spins = 10) {
-    let html = '';
-    for (let i = 0; i < spins; i++) {
-        html += `<div>${Math.floor(Math.random() * 10)}</div>`;
-    }
-    html += `<div>${finalDigit}</div>`;
-    return html;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if all required elements exist before proceeding
+  const spinButton = document.getElementById("spinButton");
+  const wheel = document.querySelector(".spin-wheel");
+  const popup = document.getElementById("popup");
+  const prizeName = document.getElementById("prize-name");
+  const redirectButton = document.getElementById("redirect-button");
+  const closePopup = document.getElementById("close-popup");
+  const bannerImage = document.querySelector(".banner-image");
 
-function animateDigit(digitId, delayOffset, totalDuration = 1000) {
-    const digit = document.getElementById(digitId);
-    const reel = digit.querySelector('.digit-reel');
+  // Exit if any element is missing
+  if (
+    !spinButton ||
+    !wheel ||
+    !popup ||
+    !prizeName ||
+    !redirectButton ||
+    !closePopup ||
+    !bannerImage
+  )
+    return;
 
-    const spins = 10;
-    const finalDigit = Math.floor(Math.random() * 10);
+  let spinning = false;
+  const landingAngles = [-115, -90, -75]; // Only these 3
 
-    // Step 1: Insert final digit + fake spins
-    reel.innerHTML = createReelContent(finalDigit, spins);
+  // Start idle wobble
+  wheel.classList.add("idle-wobble");
 
-    // Step 2: Allow DOM to render & measure sizes
-    return new Promise(resolve => {
-        requestAnimationFrame(() => {
-            // Now get dynamic heights
-            const digitHeight = digit.offsetHeight; // container height
-            const reelItem = reel.querySelector('div');
-            const itemHeight = reelItem.offsetHeight; // one digit's height
+  spinButton.addEventListener("click", () => {
+    if (spinning) return;
+    spinning = true;
 
-            // Step 3: Calculate final transform to stop perfectly at center
-            const centerOffset = (digitHeight - itemHeight) / 2;
-            const finalTranslateY = -spins * itemHeight + centerOffset;
+    // Stop idle wobble
+    wheel.classList.remove("idle-wobble");
+    wheel.style.animation = "none";
+    wheel.offsetHeight; // Force reflow
 
-            // Set initial transform (centered at top)
-            reel.style.transition = 'none';
-            reel.style.transform = `translateY(${centerOffset}px)`;
+    // Choose one of the fixed landing angles
+    const landingOffset =
+      landingAngles[Math.floor(Math.random() * landingAngles.length)];
+    const fullSpins = 8;
+    const totalRotation = fullSpins * 360 + landingOffset;
 
-            // Force layout reflow
-            void reel.offsetHeight;
+    // Spin animation - 4 seconds
+    wheel.style.transition = "transform 4s cubic-bezier(0.33, 1, 0.68, 1)";
+    wheel.style.transform = `rotate(${totalRotation}deg)`;
 
-            setTimeout(() => {
-                const adjustedDuration = totalDuration - delayOffset;
-
-                reel.style.transition = `transform ${adjustedDuration}ms ease-out`;
-                reel.style.transform = `translateY(${finalTranslateY}px)`;
-
-                reel.addEventListener('transitionend', function handler() {
-                    reel.removeEventListener('transitionend', handler);
-                    resolve(digit);
-                });
-            }, delayOffset);
-        });
-    });
-}
-
-
-
-
-async function startSlotAnimation() {
-    const digitIds = ['digit1', 'digit2', 'digit3', 'digit4'];
-    const baseDelay = 150;
-    const totalDuration = 1000;
-
-    const promises = digitIds.map((id, index) =>
-        animateDigit(id, index * baseDelay, totalDuration)
-    );
-
-    const digits = await Promise.all(promises);
-
-    // Pop one by one after stop
-    digits.forEach((digit, i) => {
-        setTimeout(() => {
-            digit.classList.add('pop');
-            setTimeout(() => digit.classList.remove('pop'), 300);
-        }, i * 300);
-    });
-}
-
-function createPartyConfetti(count = 80) {
-    const confettiContainer = document.createElement('div');
-    confettiContainer.className = 'confetti-container';
-    document.body.appendChild(confettiContainer);
-    const colors = ['#f8c300', '#ee2e45', '#00cfff', '#7cff00', '#ff7cce', '#fffbe0', '#ffd700', '#bfa100', '#ffb347', '#8fbc8f'];
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    for (let i = 0; i < count; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        // Random size
-        const width = 6 + Math.random() * 6;
-        const height = 12 + Math.random() * 8;
-        confetti.style.width = `${width}px`;
-        confetti.style.height = `${height}px`;
-        // Random color
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        // Random starting edge
-        const edge = Math.floor(Math.random() * 4); // 0: bottom, 1: top, 2: left, 3: right
-        let startX, startY, angleRange;
-        if (edge === 0) { // bottom
-            startX = Math.random() * w;
-            startY = h - 5;
-            angleRange = [-120, -60]; // Upward
-        } else if (edge === 1) { // top
-            startX = Math.random() * w;
-            startY = 5;
-            angleRange = [60, 120]; // Downward
-        } else if (edge === 2) { // left
-            startX = 5;
-            startY = Math.random() * h;
-            angleRange = [-30, 30]; // Rightward
-        } else { // right
-            startX = w - 5;
-            startY = Math.random() * h;
-            angleRange = [150, 210]; // Leftward
-        }
-        confetti.style.left = `${startX}px`;
-        confetti.style.top = `${startY}px`;
-        // Random angle within range
-        const angle = (angleRange[0] + Math.random() * (angleRange[1] - angleRange[0])) * (Math.PI / 180);
-        // Random distance (how far it flies)
-        const distance = (w + h) / 3 + Math.random() * ((w + h) / 4);
-        // Calculate final x/y offset
-        const dx = Math.cos(angle) * distance;
-        const dy = Math.sin(angle) * distance;
-        confetti.style.setProperty('--confetti-x', `${dx}px`);
-        confetti.style.setProperty('--confetti-y', `${dy}px`);
-        // Random spin direction
-        confetti.style.setProperty('--confetti-spin', Math.random() > 0.5 ? '360deg' : '-360deg');
-        // Random animation duration and delay
-        const duration = 1.5 + Math.random() * 1.3;
-        confetti.style.animationDuration = `${duration}s`;
-        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-        confettiContainer.appendChild(confetti);
-    }
-    // Remove confetti after animation
+    // After spin
     setTimeout(() => {
-        confettiContainer.remove();
-    }, 2500);
-}
+      // Normalize wheel back to landing position
+      wheel.style.transition = "none";
+      wheel.style.transform = `rotate(${landingOffset}deg)`;
+      wheel.classList.add("idle-wobble");
 
-// Replace old call
-window.addEventListener('DOMContentLoaded', () => {
-    startSlotAnimation();
-    setInterval(startSlotAnimation, 3000);
-    createPartyConfetti();
-});
+      // Confetti and popup at the same time
+      confettiShower();
+      prizeName.textContent = "💰 ১০০% ডিপোজিট বোনাস!";
+      popup.classList.add("active");
+      redirectButton.classList.add("nudge"); // start nudge animation
+    }, 4000); // match spin time
+  });
 
-window.addEventListener('DOMContentLoaded', () => {
-    startSlotAnimation();
-    setInterval(startSlotAnimation, 3000);
-    createBlowingConfetti();
-});
+  // Allow re-spin on close
+  closePopup.addEventListener("click", () => {
+    popup.classList.remove("active");
+    spinning = false;
+    redirectButton.classList.remove("nudge");
+  });
 
-document.getElementById('signupButton').addEventListener('click', () => {
-  const params = window.location.search;
-  let targetUrl = 'https://dhoni88.com/bn-bd';
-  if (params) {
-    targetUrl += params;
+  // ✅ Redirect "Claim Prize" button, with URL parameters
+  redirectButton.addEventListener("click", () => {
+    redirectButton.classList.remove("nudge");
+    const params = window.location.search || ""; // Append parameters only if they exist
+    const targetURL = "https://dhoni88.site/" + params;
+    window.location.href = targetURL;
+  });
+
+  // ✅ Redirect banner image to fixed URL + forward parameters
+  if (bannerImage) {
+    bannerImage.style.cursor = "pointer";
+
+    bannerImage.addEventListener("click", () => {
+      const currentParams = new URLSearchParams(window.location.search);
+      const baseParams = new URLSearchParams({
+        utm_source: "pushads",
+        utm_medium: "website",
+        utm_campaign: "bd-new-wheel",
+        utm_content: "20250702-new-wheel-ad",
+      });
+
+      currentParams.forEach((value, key) => {
+        baseParams.append(key, value);
+      });
+
+      const finalBannerURL =
+        "https://babu88agents.com/bd/registration/?" + baseParams.toString();
+      window.location.href = finalBannerURL;
+    });
   }
-  window.location.href = targetUrl;
-});
 
+  // Confetti from top to bottom
+  function confettiShower() {
+    const colors = ["#f1c40f", "#e74c3c", "#2ecc71", "#3498db", "#9b59b6"];
+
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.position = "fixed";
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.top = "-10px";
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.width = Math.random() * 8 + 4 + "px";
+      confetti.style.height = Math.random() * 8 + 4 + "px";
+      confetti.style.opacity = "1";
+      confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+      confetti.style.zIndex = "9999";
+
+      document.body.appendChild(confetti);
+
+      const animation = confetti.animate(
+        [
+          { transform: "translateY(0)", opacity: 1 },
+          {
+            transform: `translateY(${window.innerHeight}px) rotate(${
+              Math.random() * 360
+            }deg)`,
+            opacity: 0,
+          },
+        ],
+        {
+          duration: Math.random() * 3000 + 2000,
+          easing: "ease-out",
+        }
+      );
+
+      animation.onfinish = () => {
+        confetti.remove();
+      };
+    }
+  }
+
+  // Babu88 Integration - Adding tracking parameters
+  var params = new URLSearchParams(location.href);
+  window.kmnr = {
+    kmnrKey: "177152497",
+    cnvId: params.get("s2") || "default_value",
+    sub1: params.get("s2") || "default_value",
+    sub2: params.get("campaignid") || "default_value",
+    sub3: params.get("publisher") || "default_value",
+    sub4: params.get("domain") || "default_value",
+    sub5: params.get("zone") || "default_value",
+    sub6: params.get("subzone") || "default_value",
+    sub7: params.get("network") || "default_value",
+  };
+
+  var kmnrSc = document.createElement("script");
+  var kmnrPrnt = document.getElementsByTagName("head")[0] || document.body;
+  kmnrSc.setAttribute("async", true);
+  kmnrSc.setAttribute("charset", "utf-8");
+  kmnrSc.src = "//afrdtech.com/v1/script.js?kmnrKey=" + window.kmnr.kmnrKey;
+  kmnrPrnt && kmnrPrnt.appendChild(kmnrSc);
+});

@@ -1,56 +1,113 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuckyBangla88 - Join Today!</title>
-    <link rel="icon" type="image/png" href="images/favi_d88.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dhoni88 - spin-wheel!</title>
+    <link rel="icon" type="images" href="images/dhoni88-favicon.webp" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+
+  </head>
+  <body>
     <div class="container-fluid">
-        <div class="landing-page">
-            <div class="content-wrapper text-center">
-                <!-- Main Image Section -->
-                <div class="main-image-section">
-                    <img src="images/BDLotto.png" alt="Jili" class="jili-image">
-                </div>
-                <!-- Text Content Section -->
-                <div class="text-content">
-                    <h2>অরে!</h2>
-                    <h2>লটারির নম্বর বল, জিতেও যাও!</h2>
-                </div>
-                <div class="slot-machine-container">
-                   <div class="slot-machine">
-                     <div class="slot-digit" id="digit1"><div class="digit-reel"></div></div>
-                     <div class="slot-digit" id="digit2"><div class="digit-reel"></div></div>
-                     <div class="slot-digit" id="digit3"><div class="digit-reel"></div></div>
-                     <div class="slot-digit" id="digit4"><div class="digit-reel"></div></div>
-                   </div>
-               </div>
+      <div class="landing-page">
+        <div class="content-wrapper text-center">
+          <!-- Logo -->
+              <div class="main-image-section">
+                <img src="images/Logo.webp" alt="Jili" class="jili-image" />
+              </div>
 
+              <!-- Heading -->
+              <div class="text-content">
+                <h1>বিশেষ স্বাগতম বোনাস</h1>
+              </div>
 
-                <div class="text-content">
-                    <h3 class="gold-text glow-pop">৳500,000,000</h3>
-                </div>
-                <!-- Logo Section -->
-                <div class="text-content">
-                    <h5>এখনই শুধুমাত্র এখানে উপলব্ধ</h5>
-                </div>
-                <div class="logo-section">
-                    <img src="images/D88_Logo_White.png" alt="BB88 Logo" class="logo-image">
+          <!-- Spin Button -->
+            <div class="spin-button-wrapper">
+                  
+                   <button id="spinButton" class="spin-button">স্পিন</button>
+                </div>         
+                            <!-- Spin Wheel Section -->
+                  <div class="main-content">
+                    <div class="wheel-wrapper">
+                      <img src="images/wheel.webp" alt="spin-wheel" class="spin-wheel" />
+                      <img src="images/pin.webp" alt="pin" class="pin" />
+                    </div>
+                  </div>
+
+                  <!-- ✅ Move banner-wrapper here BELOW the wheel -->
+                  <div class="banner-wrapper">
+                    <img
+                      src="images/banner-image..webp"
+                      alt="banner-logo"
+                      class="banner-image"
+                    />
+                  </div>
                 </div>  
-                <!-- CTA Button -->
-                <div class="cta-section">
-                    <button id="signupButton" class="signup-button">আজ খেলা!</button>
-                </div>
-            </div>
-        </div>
-    </div>
+           </div>
+       </div>
+    </div> <!-- Close container-fluid here -->
+
+
+
+
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+
+    
+<!-- Popup Structure -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h2 style="
+      font-size: 3rem;
+      color: gold; /* Changed to gold */
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    ">
+      অভিনন্দন!
+    </h2>
+    <p>আপনি জিতেছেন:</p>
+    <div class="prize-name" id="prize-name">💰 ১০০% ডিপোজিট বোনাস!</div>
+    <p>আপনার পুরস্কার সংগ্রহ করুন এখনই।</p>
+
+    <!-- ✅ Gradient Maroon Button -->
+    <button
+      class="redirect-button"
+      id="redirect-button"
+      style="
+        background: linear-gradient(45deg, #800000, #4b0000); /* Maroon Gradient */
+        color: #fff;
+        border: none;
+        padding: 15px 24px;
+        font-size: 1.2rem;
+        border: solid gold 4px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-shadow: 1px 1px 2px #00000050;
+      "
+    >
+      পুরস্কার সংগ্রহ করুন🎁
+    </button>
+  </div>
+  <div class="close-popup" id="close-popup">×</div>
+</div>
+
+</div>
+
+  </div>
+
+
+
+  </body>
 </html>

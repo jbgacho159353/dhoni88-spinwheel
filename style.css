@@ -1,288 +1,582 @@
 .slot-machine-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .main-image-section {
-    margin-top: 80px;
-    margin-bottom: 50px ;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .text-content {
-    margin: 30px;
-}
-
-.gold-text {
-  font-size: 70px;
-  font-weight: bold;
-  font-family: 'Rubik', sans-serif;
-  text-align: center;
-  color: #f8c300; /* Slightly deeper gold for readability */
-  display: inline-block;
-}
-
-/* Glowing and popping animation */
-.glow-pop {
-  animation: glowPop 2s ease-in-out infinite;
-}
-
-.confetti-container {
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
-  overflow: visible;
-}
-
-.confetti {
-  position: absolute;
-  will-change: transform, opacity;
-  border-radius: 2px;
-  opacity: 0.92;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  left: 0;
-  top: 0;
-  /* The animation duration is set inline via JS */
-  animation: confettiPop var(--confetti-duration, 1.5s) cubic-bezier(0.3,0.6,0.3,1) forwards;
-}
-
-@keyframes confettiPop {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1.1);
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    /* Burst outward in arc, with spin */
-    transform: translate(var(--confetti-x, 0), var(--confetti-y, -200px)) rotate(var(--confetti-spin, 360deg)) scale(1);
-    opacity: 0;
-  }
-}
-
-@keyframes glowPop {
-  0%, 100% {
-    transform: scale(1);
-    text-shadow:
-      0 0 5px #f8c300,
-      0 0 10px rgba(255, 215, 0, 0.5),
-      0 0 15px rgba(255, 180, 0, 0.3);
-  }
-
-  50% {
-    transform: scale(1.15);
-    text-shadow:
-      0 0 10px #ffdd57,
-      0 0 15px rgba(255, 215, 0, 0.6),
-      0 0 20px rgba(255, 180, 0, 0.4);
-  }
-}
-
-/* 📱 Responsive adjustments for phones and tablets */
-@media (max-width: 768px) {
-  .gold-text {
-    font-size: 40px;
-    padding: 0 10px;
-  }
-}
-
-
-.logo-image {
-    max-width: 250px;
-    height: auto;
-    display: block;
-    margin: 20px auto 0 auto;
+  margin: 10px;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background: url('images/Background.png') no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Rubik', sans-serif;
-    color: white;
+  background: url("images/bg-image.webp") no-repeat center center fixed;
+  background-size: cover;
+  background-blend-mode: normal; /* Prevents image from blending with background layers */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Rubik", sans-serif;
+  color: #ffffff;
 }
+
+.jili-image {
+  width: 150px; /* Adjust as needed */
+  height: auto;
+}
+
 .container-fluid {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.signup-button {
-  margin-top: 50px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-  padding: 20px 60px;
-  border: none;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #f5d142, #e4b000);
-  box-shadow: 0 5px 15px rgba(229, 183, 0, 0.6);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  font-family: 'Rubik', sans-serif;
-
-  /* Glow animation */
-  animation: goldGlow 2.5s infinite ease-in-out;
-}
-
-.signup-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.9);
-}
-
-.signup-button:active {
-  transform: scale(0.98);
-  box-shadow: 0 4px 10px rgba(229, 183, 0, 0.4);
-}
-
-@keyframes goldGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(229, 183, 0, 0.6), 0 0 20px rgba(229, 183, 0, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.7);
-  }
-}
-
-.slot-machine {
-    display: flex;
-    gap: 15px;
-}
-
-.slot-digit {
-    position: relative;
-    width: 100px;
-    height: 120px;
-    overflow: hidden;
-    border: 5px solid #ee2e45;
-    border-radius: 12px;
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.digit-reel {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform: translateY(0);
-}
-
-.digit-reel div {
-    height: 120px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 6rem;
-    font-family: 'Rubik', sans-serif;
-    font-weight: bold;
-    color: white;
-}
-
-.pop {
-    animation: popScale 0.3s ease forwards;
-}
-
-
-
-
-@keyframes popScale {
-    0% { transform: scale(1); border-color: #ffc107; }
-    50% { transform: scale(1.3); border-color: #fff; }
-    100% { transform: scale(1); border-color: #ffc107; }
-}
-
-@media (max-width: 375px) {
-  .slot-digit {
-    width: 60px;
-    height: 80px;
-  }
-
-  .digit-reel div {
-    height: 80px; /* Match the container */
-    font-size: 3rem;
-  }
-
-  .digit-reel {
-    top: 0;
-    transform: none; /* Reset any centering */
-  }
-}
-
-
-.slot-digit {
-  width: 100px;
-  height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  border: 5px solid #ee2e45;
-  border-radius: 12px;
-  background-color: #000;
-  position: relative;
+  width: 100%;
 }
 
-.digit-reel {
+.text-content h1 {
+  color: white;
+  font-size: clamp(20px, 6vw, 32px); /* ✅ Responsive between 20px and 32px */
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.spin-button {
+  background: maroon; /* changed to maroon */
+  border: 2px solid gold; /* changed to gold border */
+  border-radius: 30px;
+  margin-top: 15px;
+  padding: 8px 50px;
+  font-family: "Noto Sans Bengali", sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+  box-shadow: inset -1px -1px 6px rgba(255, 255, 255, 0.35),
+    inset 2px 2px 8px rgba(255, 255, 255, 0.15), 0 4px 8px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.spin-button:hover {
+  transform: translateY(-2px);
+  box-shadow: inset -1px -1px 6px rgba(255, 255, 255, 0.4),
+    inset 2px 2px 10px rgba(255, 255, 255, 0.2), 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.spin-button:active {
+  transform: translateY(1px);
+  box-shadow: inset 1px 1px 6px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 380px) {
+  .spin-button {
+    margin-top: 10px;
+  }
+}
+
+.banner-content {
+  width: 100%;
+}
+
+/* Pin-wheel */
+.wheel-wrapper {
+  position: relative;
+  display: inline-block; /* Keeps it tight around the wheel */
+}
+
+.spin-wheel {
+  display: block;
+  width: 100%; /* or your preferred size */
+  height: auto;
+}
+
+.pin {
   position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px; /* Adjust based on your design */
+  height: auto;
+  z-index: 10; /* Ensures it stays on top */
+}
+
+/* Spin-wheel */
+.wheel-wrapper {
+  position: relative;
+  width: 500px; /* Adjust size as needed */
+  height: auto;
+  margin-top: 15px; /* ✅ Added top margin */
+}
+
+.spin-wheel {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .wheel-wrapper {
+    width: 100%;
+    max-width: 380px; /* ⬆️ Increased from 320px */
+    margin: 20px auto;
+  }
+
+  .pin {
+    width: 20%; /* ⬆️ Increased from 15% */
+  }
+}
+@media (max-width: 380px) {
+  .wheel-wrapper {
+    width: 90%;
+    max-width: none; /* Remove the 380px cap for smaller phones */
+    margin: 20px auto 60px auto; /* Optional: adds space below wheel */
+  }
+
+  .spin-wheel {
+    width: 100%;
+  }
+
+  .pin {
+    width: 25%; /* Slightly bigger to match smaller screen */
+  }
+}
+
+.banner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.pin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px; /* Optional size */
+  height: auto;
+  z-index: 10;
+}
+.banner-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto; /* You can set fixed height if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  z-index: 99;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.banner-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Optional: force specific height */
+@media (min-width: 768px) {
+  .banner-image {
+    height: 200px; /* Adjust as needed */
+  }
+}
+
+@media (max-width: 767px) {
+  .banner-image {
+    height: 150px; /* Adjust for mobile screens */
+  }
+}
+@media (max-width: 768px) {
+  .banner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+  }
+
+  .landing-page,
+  .content-wrapper {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+@media (max-width: 1024px) {
+  .banner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+  }
+
+  .landing-page,
+  .content-wrapper {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .wheel-wrapper {
+    width: 100%;
+    max-width: 500px; /* ⬆️ Increased size */
+    margin: 30px auto;
+  }
+
+  .spin-wheel {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .pin {
+    width: 50px; /* ⬆️ Increase pin size with the wheel */
+    height: auto;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .wheel-wrapper {
+    width: 100%;
+    max-width: 767px; /* ⬅️ Set exact size */
+    margin: 30px auto;
+  }
+
+  .spin-wheel {
+    width: 100%;
+    height: auto;
+  }
+
+  .pin {
+    width: 60px; /* Optional: scale pin accordingly */
+    height: auto;
+  }
+}
+.spin-wheel {
+  transform-origin: center center;
+  transition: transform 0.3s ease;
+  /* Default angle from JS */
+  --rotation: 0deg;
+  --wobble: 0deg;
+  transform: rotate(var(--rotation)) rotate(var(--wobble));
+}
+
+/* Idle wobble keyframes - realistic back and forth */
+@keyframes idle-wobble {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(6deg);
+  }
+  40% {
+    transform: rotate(-6deg);
+  }
+  60% {
+    transform: rotate(4deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.spin-wheel.idle-wobble {
+  animation: idle-wobble 5s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Popup */
+/* Popup Styling */
+.popup {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateY(0);
-}
-
-.digit-reel div {
-  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 6rem;
-  font-family: 'Rubik', sans-serif;
-  font-weight: bold;
-  color: white;
-  height: auto; /* dynamic */
-  padding: 10px 0; /* better visual center */
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
 }
 
+.popup.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  background: #222;
+  color: #fff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.popup-content h2 {
+  font-size: 28px;
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+
+.prize-name {
+  font-size: 24px;
+  color: #00e676;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+.redirect-button {
+  background: linear-gradient(to right, #ff5722, #ff9800);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.close-popup {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ff5252;
+  color: #fff;
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+  line-height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #f1c40f;
+  z-index: 998;
+  opacity: 0.9;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 1000;
+}
+
+.popup.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  background: #fff;
+  color: #000;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 90%;
+  width: 400px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.close-popup {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: maroon;
+  color: #fff;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.confetti {
+  position: fixed;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.pin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 3px); /* Minimal Y-axis push */
+  width: 40px; /* ⬆️ Slightly increased from 60px */
+  height: auto;
+  z-index: 10;
+}
 
 @media (max-width: 768px) {
-  .slot-digit {
-    width: 60px;
-    height: 80px;
-  }
-
-  .digit-reel div {
-    font-size: 2.5rem;
-    padding: 6px 0;
+  .pin {
+    width: 8%; /* Slight increase from 20% */
+    transform: translate(-50%, 3px);
   }
 }
 
-
-@media (max-width: 375px) {
-  .logo-image {
-    max-width: 170px;
+@media (max-width: 380px) {
+  .pin {
+    width: 8%; /* Slight increase from 23–25% */
+    transform: translate(-50%, 3px);
   }
+}
 
-  .signup-button {
-    font-size: 18px;
-    padding: 14px 40px;
-    margin-top: 20px;
+.jili-image {
+  width: 120px; /* Adjust this value to control size */
+  height: auto;
+}
+
+.jili-image {
+  width: 180px; /* Or any size you prefer */
+  max-width: 100%;
+  height: auto;
+}
+
+/* Wiggle animation */
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(-5deg);
+  }
+  30% {
+    transform: rotate(5deg);
+  }
+  45% {
+    transform: rotate(-5deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Wiggle effect */
+.redirect-button.nudge {
+  animation: wiggle 0.6s ease-in-out infinite;
+}
+
+/* When hovering, stop wiggle and reset transform */
+.redirect-button.nudge:hover {
+  animation: none;
+  transform: rotate(0deg);
+}
+
+/* Base button style */
+.redirect-button {
+  background: maroon !important;
+  color: white;
+  border: 2px solid gold;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 2px #00000050;
+  transition: transform 0.2s ease-in-out;
+}
+@media (max-width: 767px) {
+  .redirect-button {
+    font-size: 1rem; /* Smaller font for mobile */
+    padding: 10px 20px; /* Optional: adjust padding too */
+  }
+}
+@media (max-width: 375px) {
+  .redirect-button {
+    font-size: 0.85rem; /* Smaller font for iPhone SE and similar devices */
+    padding: 10px 25px; /* Optional: reduce padding too */
   }
 }
